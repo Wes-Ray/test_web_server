@@ -1,9 +1,16 @@
-- name: Execute SSH commmands on remote server
-  on: [push]
-  jobs:
-    Test SSH command:
-      uses: JimCronqvist/action-ssh@master
-      with:
-        hosts: 'user@domain.com'
-        privateKey: ${{ secrets.PRIVATE_KEY }}
-        command: ls -lah
+name: GitHub Actions Demo
+on: [push]
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Testing SSHing into server with SSH keys."
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          known_hosts: 'placeholder'
+      - name: Adding Known Hosts
+        run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      # - name: Testing SSH connection.
+      #   run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} root@144.126.208.21
