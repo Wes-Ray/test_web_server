@@ -12,3 +12,5 @@ jobs:
           known_hosts: 'placeholder'
       - name: Adding Known Hosts
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      - name: Testing SSH connection.
+        run: ssh -i ${{ secrets.SSH_PRIVATE_KEY }} root@144.126.208.21
