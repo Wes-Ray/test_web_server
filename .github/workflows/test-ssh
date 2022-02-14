@@ -1,0 +1,9 @@
+- name: Execute SSH commmands on remote server
+  on: [push]
+  jobs:
+    Test SSH command:
+      uses: JimCronqvist/action-ssh@master
+      with:
+        hosts: 'user@domain.com'
+        privateKey: ${{ secrets.PRIVATE_KEY }}
+        command: ls -lah
