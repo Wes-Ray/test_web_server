@@ -2,8 +2,9 @@ name: CI
 on: [push]
 jobs:
   deploy:
-    # runs-on: ubuntu-latest
-    # steps:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo TEST_TEST
     #   - name: Configure SSH
     #     run: |
     #       mkdir -p ~/.ssh/
