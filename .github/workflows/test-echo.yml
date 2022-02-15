@@ -1,7 +1,0 @@
-name: test echo
-on: [push]
-jobs:
-  Test:
-    runs-on: ubuntu-lates
-    steps:
-      - run: echo "Testing echo"
