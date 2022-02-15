@@ -1,20 +1,38 @@
-# name: learn-github-actions
-# on: [push]
-# jobs:
-#   check-bats-version:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: actions/checkout@v2
-#       - uses: actions/setup-node@v2
-#         with:
-#           node-version: '14'
-#       - run: npm install -g bats
-#       - run: bats -v
-
-name: test-echo
+name: CI
 on: [push]
 jobs:
-  echo:
+  # test:
+  #   ...
+  deploy:
+    name: "Deploy to staging"
     runs-on: ubuntu-latest
     steps:
-      - run: echo TEST_ECHO
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$SSH_KEY" > ~/.ssh/staging.key
+          chmod 600 ~/.ssh/staging.key
+          cat >>~/.ssh/config <<END
+          Host staging
+            HostName $SSH_HOST
+            User $SSH_USER
+            IdentityFile ~/.ssh/staging.key
+            StrictHostKeyChecking no
+          END
+        env:
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+    
+        - name: Test touch file in tmp dir
+          run: ssh staging 'touch test_ssh_touch'
+
+      # - name: Stop the server
+      #   run: ssh staging 'sudo systemctl stop my-application'
+
+      # - name: Check out the source
+      #   run: ssh staging 'cd my-application && git fetch && git reset --hard origin/master'
+
+      # - name: Start the server
+      #   if: ${{ always() }}
+      #   run: ssh staging 'sudo systemctl start my-application'
