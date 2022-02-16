@@ -1,10 +1,8 @@
 name: CI
-on: [push, pull_request]
+on: [push]
 jobs:
   deploy:
-    name: "Deploy to staging"
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
     steps:
       - name: Configure SSH
         run: |
@@ -24,7 +22,7 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
       
       - name: Test echo to tmp
-        run: ssh staging 'touch /tmp/test_touch01'
+        run: ssh staging 'touch /tmp/test_touch02'
 
       # - name: Stop the server
       #   run: ssh staging 'sudo systemctl stop my-application'
