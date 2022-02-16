@@ -25,7 +25,7 @@ jobs:
       
       - name: Test echo to tmp
         # run: ssh staging 'touch /tmp/test_touch01'
-        run: ssh staging 'cd /tmp'
+        run: ssh staging
 
       # - name: Stop the server
       #   run: ssh staging 'sudo systemctl stop my-application'
