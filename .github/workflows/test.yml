@@ -23,8 +23,9 @@ jobs:
           SSH_KEY: ${{ secrets.STAGING_SSH_KEY }}
           SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
       
-      # - name: Test echo to tmp
-      #   run: ssh staging 'touch /tmp/test_touch01'
+      - name: Test echo to tmp
+        # run: ssh staging 'touch /tmp/test_touch01'
+        run: ssh staging 'cd /tmp'
 
       # - name: Stop the server
       #   run: ssh staging 'sudo systemctl stop my-application'
