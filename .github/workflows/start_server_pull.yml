@@ -21,5 +21,5 @@ jobs:
           SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
       
-      - name: Test echo to tmp
+      - name: git pull
         run: ssh staging 'cd /var/www/html/test_web_server; git pull'
