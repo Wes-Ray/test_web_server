@@ -20,8 +20,7 @@ jobs:
       #     SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       #     SSH_HOST: ${{ secrets.SSH_HOST }}
     
-        - name: Test touch file in tmp dir
-          run: ssh staging 'touch test_ssh_touch'
+        - run: ssh staging 'touch test_ssh_touch'
 
     #   # - name: Stop the server
     #   #   run: ssh staging 'sudo systemctl stop my-application'
