@@ -1,10 +1,16 @@
 name: CI
-on: [push]
+on: [push, pull_request]
 jobs:
+  # test:
+  #   ...
   deploy:
+    name: "Deploy to staging"
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    # needs: test
     steps:
-      - run: >
+      - name: Configure SSH
+        run: |
           mkdir -p ~/.ssh/
           echo "$SSH_KEY" > ~/.ssh/staging.key
           chmod 600 ~/.ssh/staging.key
@@ -16,18 +22,16 @@ jobs:
             StrictHostKeyChecking no
           END
         env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-    
-        # - run: ssh staging 'touch test_ssh_touch'
+          SSH_USER: ${{ secrets.STAGING_SSH_USER }}
+          SSH_KEY: ${{ secrets.STAGING_SSH_KEY }}
+          SSH_HOST: ${{ secrets.STAGING_SSH_HOST }}
 
-    #   # - name: Stop the server
-    #   #   run: ssh staging 'sudo systemctl stop my-application'
+      - name: Stop the server
+        run: ssh staging 'sudo systemctl stop my-application'
 
-    #   # - name: Check out the source
-    #   #   run: ssh staging 'cd my-application && git fetch && git reset --hard origin/master'
+      - name: Check out the source
+        run: ssh staging 'cd my-application && git fetch && git reset --hard origin/master'
 
-    #   # - name: Start the server
-    #   #   if: ${{ always() }}
-    #   #   run: ssh staging 'sudo systemctl start my-application'
+      - name: Start the server
+        if: ${{ always() }}
+        run: ssh staging 'sudo systemctl start my-application'
