@@ -22,4 +22,4 @@ jobs:
           SSH_HOST: ${{ secrets.SSH_HOST }}
       
       - name: Test echo to tmp
-        run: ssh staging 'touch /tmp/test_touch03'
+        run: ssh staging 'touch /tmp/test_touch04'
